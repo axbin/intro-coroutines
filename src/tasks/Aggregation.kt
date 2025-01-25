@@ -1,6 +1,7 @@
 package tasks
 
 import contributors.User
+import okhttp3.internal.userAgent
 
 /*
 TODO: Write aggregation code.
@@ -15,4 +16,12 @@ TODO: Write aggregation code.
  You can use 'Navigate | Test' menu action (note the shortcut) to navigate to the test.
 */
 fun List<User>.aggregate(): List<User> =
-    this
+    if (false)
+        groupBy { it.login }
+            .map { (login, group) -> User(login, group.sumOf { it.contributions }) }
+            .sortedByDescending { it.contributions }
+    else
+        groupingBy { it.login }
+            .fold(initialValue = 0) { r, t -> r + t.contributions }
+            .map { (login, contributions) -> User(login, contributions) }
+            .sortedByDescending { it.contributions }
