@@ -12,7 +12,7 @@ suspend fun loadContributorsNotCancellable(service: GitHubService, req: RequestD
 
     val deferreds: List<Deferred<List<User>>> = repos.map { repo ->
         GlobalScope.async {
-            log("@@@@@@starting loading for ${repo.name}")
+            log("@@@@@@starting loading for ${repo.name}. this is $this") // this is "coroutine#4":DeferredCoroutine{Active}@301dec41
             service.getRepoContributors(req.org, repo.name)
                 .also { logUsers(repo, it) }
                 .bodyList()

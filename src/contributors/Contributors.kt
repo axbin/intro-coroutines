@@ -73,21 +73,28 @@ interface Contributors: CoroutineScope {
                 }
             }
             SUSPEND -> { // Using coroutines
+                println("this is $this") // this is contributors.ContributorsUI[frame0,1982,233,495x482,
                 launch {
+                    println("this is $this") // this is "coroutine#1":StandaloneCoroutine{Active}@b7de010
                     val users = loadContributorsSuspend(service, req)
                     updateResults(users, startTime)
                 }.setUpCancellation()
             }
             CONCURRENT -> { // Performing requests concurrently
+                println("this is $this") // this is contributors.ContributorsUI[frame0,1962,246,495x482,
                 launch(Dispatchers.Default) {
+                    println("this is $this") // this is "coroutine#1":StandaloneCoroutine{Active}@158a8100
                     val users = loadContributorsConcurrent(service, req)
                     withContext(Dispatchers.Main){
+                        println("this is $this") // this is "coroutine#1":DispatchedCoroutine{Active}@25eaffbd
                         updateResults(users, startTime)
                     }
                 }.setUpCancellation()
             }
             NOT_CANCELLABLE -> { // Performing requests in a non-cancellable way
+                println("this is $this") // this is contributors.ContributorsUI[frame0,1033,459,495x482,
                 launch {
+                    println("this is $this") // this is "coroutine#1":StandaloneCoroutine{Active}@59c461fb
                     val users = loadContributorsNotCancellable(service, req)
                     updateResults(users, startTime)
                 }.setUpCancellation()
@@ -166,6 +173,7 @@ interface Contributors: CoroutineScope {
 
         // update the status and remove the listener after the loading job is completed
         launch {
+            log("before loadingJob.join, ${this}")
             loadingJob.join()
             setActionsStatus(newLoadingEnabled = true)
             removeCancelListener(listener)
