@@ -49,6 +49,9 @@ interface Contributors: CoroutineScope {
         val (username, password, org, _) = getParams()
         val req = RequestData(username, password, org)
 
+        println("password: $password")
+        println("java version: " + System.getProperty("java.version"))
+
         clearResults()
         val service = createGitHubService(req.username, req.password)
 
@@ -109,7 +112,16 @@ interface Contributors: CoroutineScope {
                 }.setUpCancellation()
             }
             CHANNELS -> {  // Performing requests concurrently and showing progress
-                launch(Dispatchers.Default) {
+
+                val context1 = CoroutineName("name1111")
+                val context2 = CoroutineName("name2222")
+                val context3 = context1 + context2
+                val context4 = Dispatchers.Default + context3
+
+                println(context4)
+
+                launch(Dispatchers.Default + CoroutineName("channels_coroutine")) {
+                    println("this is ${coroutineContext[Job]}")
                     loadContributorsChannels(service, req) { users, completed ->
                         withContext(Dispatchers.Main) {
                             updateResults(users, startTime, completed)
