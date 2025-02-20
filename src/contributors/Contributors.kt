@@ -113,6 +113,34 @@ interface Contributors: CoroutineScope {
             }
             CHANNELS -> {  // Performing requests concurrently and showing progress
 
+                println("please input Int:")
+                val myNumber = readln().toInt()
+                println(myNumber)
+
+                println("please input Double:")
+                val myDouble = readln().toDouble()
+                println(myDouble)
+
+                println("please input Boolean:")
+                val myBoolean = readln().toBoolean()
+                println(myBoolean)
+
+                println("please input Ints:")
+                val numbers = readln().split(' ').map { it.toInt() }
+                println(numbers)
+
+                println("please input Doubles:")
+                val doubles = readln().split(',').map { it.toDouble() }
+                println(doubles)
+
+                println("please input wrong Int:")
+                val wrongInt = readln().toIntOrNull()
+                println(wrongInt)
+
+                println("please input correct Int:")
+                val correctInt = readln().toIntOrNull()
+                println(correctInt)
+
                 val context1 = CoroutineName("name1111")
                 val context2 = CoroutineName("name2222")
                 val context3 = context1 + context2
